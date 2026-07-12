@@ -1,0 +1,17 @@
+# Python bytecode cache
+__pycache__/
+*.pyc
+
+# Gurobi WLS license (private credentials - never commit)
+gurobi.lic
+
+# IDE
+.idea/
+
+# Local-only (not tracked)
+markdown/
+paper/
+
+# Core algorithm (keep private until publication)
+solar_all_method.py
+solar_all_method.md
