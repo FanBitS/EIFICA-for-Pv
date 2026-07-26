@@ -11,6 +11,7 @@ gurobi.lic
 # Local-only (not tracked)
 markdown/
 paper/
+epsr_sample/
 
 # Core algorithm (keep private until publication)
 solar_all_method.py
