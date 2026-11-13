@@ -1,6 +1,6 @@
 # Reproduction guide for the public archive
 
-This guide maps the revised manuscript's figures and tables to public source files. The [EPSR revision archive](https://github.com/FanBitS/EIFICA-for-Pv/tree/epsr-revision-2026-11-13) fixes the version of those files; its full commit ID can also be cited.
+This guide maps the revised manuscript's figures and tables to public source files. The [EPSR revision archive](https://github.com/FanBitS/EIFICA-for-Pv/tree/epsr-revision-2026-11-13-v2) fixes the version of those files; its full commit ID can also be cited.
 
 ## Saved experiment records
 

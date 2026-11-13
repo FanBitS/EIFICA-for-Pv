@@ -21,4 +21,4 @@ The five-seed Table 1 and ten-seed Figs. 3–8 use different seed counts. The gu
 
 This repository includes the experiment drivers, PV-error preprocessing, plotting code, saved results, and figure/table source data. **The core optimization solver, `solar_all_method.py`, is not public.** Running new optimization instances with [`paper_eval.py`](paper_eval.py) or [`exp_optimality_run.py`](exp_optimality_run.py) requires that solver and a Gurobi license. Editors and reviewers may request the complete code for confidential examination at **f13265151226@163.com**.
 
-For a fixed version of these public files, use the [EPSR revision archive](https://github.com/FanBitS/EIFICA-for-Pv/tree/epsr-revision-2026-11-13).
+For a fixed version of these public files, use the [EPSR revision archive](https://github.com/FanBitS/EIFICA-for-Pv/tree/epsr-revision-2026-11-13-v2).
