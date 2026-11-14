@@ -9,7 +9,7 @@
 
 The second-computer comparison used RTS-24 and IEEE-118, N=150/300, T=24, epsilon=0.03, theta=0.06, and five paired seeds. It covered 40 optimization runs per computer.
 
-The main mixed-integer benchmark setting was a 0.1% relative MIP gap. Gurobi feasibility and optimality tolerances were 1e-6; iterative ramp screening used 1e-4 MW. The general instance time limit was four hours. The T=3 ExactLHS comparison has its own 600-second initial limit and selected one-hour retries, as described in the reproduction guide.
+The main mixed-integer benchmark setting was a 0.1% relative MIP gap. Gurobi feasibility and optimality tolerances were 1e-6; iterative ramp screening used 1e-4 MW. The general instance time limit was four hours. The T=3 ExactLHS comparison uses a one-hour time limit.
 
 ## Memory recorded in the archived experiments
 
