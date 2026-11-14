@@ -1,6 +1,6 @@
 # Environment and execution
 
-The scripts were checked on Linux x86_64 with Python 3.9.19. Package versions below were read from the local environment used for the paper. They provide a reproduction baseline rather than a claim about every operating system or package combination.
+The scripts were checked on Linux x86_64 with Python 3.9.19. Package versions below were read from the local environment used for the paper.
 
 ## Create an environment
 
@@ -70,4 +70,4 @@ The local optimization environment used pandapower 2.14.6, gurobipy 12.0.3, jobl
 
 ## Installation check
 
-A fresh Python 3.9.19 virtual environment was used to install `requirements-notebooks.txt`. `python -m pip check` passed, and both extraction scripts plus the Fig. 2 and Fig. 9 plotting scripts completed successfully in that environment. New optimization experiments were not launched as part of this installation check.
+A fresh Python 3.9.19 virtual environment was used to install `requirements-notebooks.txt`. `python -m pip check` passed, and both extraction scripts plus the Fig. 2 and Fig. 9 plotting scripts completed successfully in that environment.
