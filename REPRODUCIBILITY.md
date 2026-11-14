@@ -60,6 +60,8 @@ Fig. 2 uses iterative EIFICA on RTS-24 at N=300, epsilon=0.03, theta=0.06, and T
 
 Fig. 9 uses all 120 fixed-five-seed paired cases. Nine final one-hour time-limit cases have objective-difference intervals calculated from the ExactLHS incumbent and solver lower bound. The original `Solar_c24_optgap/optimality_gap_T3_fixed.csv` is a different 240-pair archive and is not the input to revised Fig. 9.
 
+Hardware, observed per-instance memory, and parallel-run budgeting are documented in [HARDWARE.md](HARDWARE.md).
+
 ## Preprocessing, seeds, and optimization access
 
 - `solar_error_generalization.py` and `solar_error_generalization.ipynb` implement historical-error preprocessing, KDE fitting, and copula-based scenario construction from the included PV data. Scenario generation specifies seed 0 and saves its arrays under `data/`.

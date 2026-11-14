@@ -56,6 +56,8 @@ The kernel name is also user-selected. Open the notebook in your notebook applic
 
 ## New optimization runs
 
+Consult [HARDWARE.md](HARDWARE.md) before choosing N or the number of concurrent instances. It reports the experimental equipment and observed per-process memory.
+
 After obtaining the core solver and instance files, install the additional packages:
 
 ```bash

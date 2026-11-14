@@ -4,7 +4,7 @@ Data and reproduction scripts for **“Envelope Informed Fast Inner Convex Appro
 
 ## Setup
 
-See [ENVIRONMENT.md](ENVIRONMENT.md) for the tested Python and package versions, a user-named environment, and execution commands. Saved-result plots do not require the optimization solver or a Gurobi license.
+See [ENVIRONMENT.md](ENVIRONMENT.md) for the tested Python and package versions, a user-named environment, and execution commands. Saved-result plots do not require the optimization solver or a Gurobi license. See [HARDWARE.md](HARDWARE.md) for the two experimental computers, observed per-instance memory, and guidance on selecting a workload.
 
 ## Manuscript figures and tables
 
