@@ -1,60 +1,66 @@
-# Reproduction guide for the public archive
+# Reproduction guide
 
-This guide maps the revised manuscript's figures and tables to public source files. The [EPSR revision archive](https://github.com/FanBitS/EIFICA-for-Pv/tree/epsr-revision-2026-11-13-v2) fixes the version of those files; its full commit ID can also be cited.
+This guide follows the current manuscript numbering. Table 1 uses ten matched seeds for all three methods. Table 2 reports historical validation. Save the full repository commit ID with reproduced results.
 
-## Saved experiment records
+## Rebuild the table data
 
-| Record | Coverage | Use |
-|---|---|---|
-| `master_summary.csv` | 840 main-grid rows, seeds 0–4 | Original five-seed summary |
-| `master_summary_20260708_110917.csv` | 1,680 main-grid FICA/EIFICA rows, seeds 0–9, plus 41 separate CVaR rows | Ten-seed summary for the main result figures |
-| `figure_table_data/figures_3_to_8_main_grid_10seeds.csv` | The 1,680 FICA/EIFICA rows extracted from the ten-seed summary | Direct input to the main result notebook |
-| `figure_table_data/table_1_rts24_5seeds.csv` | 120 RTS-24 rows: 40 CVaR, 40 direct EIFICA, 40 iterative EIFICA | Original Table 1 source rows |
-| `figure_table_data/fig9_exactlhs_120_cases.csv` | 120 fixed-five-seed EIFICA/ExactLHS pairs, including nine one-hour time-limit cases | Revised Fig. 9 source rows |
-| `figure_table_data/table_2_exactlhs_10_retries.csv` | Ten one-hour retries: nine time limits and one tolerance termination | Current manuscript Table 2 |
-| `Solar_c24_speed/`, `Solar_c24_exact/`, `Solar_c118_speed/`, `Solar_c118_exact/` | 840 saved per-instance `.npy` records, seeds 0–4 | Inspect original five-seed instance results |
-| `Solar_c24_optgap/optimality_gap_T3_fixed.csv` | 480 saved method rows, with seed values 0, 100, ..., 900 | Original T=3 EIFICA/ExactLHS plot input; 48 ExactLHS runs reached the original time limit |
+From the repository root, run:
 
-The ten-seed summary includes the second five seeds in CSV form. Their per-instance `.npy` files are **not** in this public checkout. The 41 CVaR rows include all 40 cases needed by the original Table 1 and one additional N=100 case. They are not a complete ten-seed CVaR grid. Run `python extract_figure_table_data.py` to regenerate the main-grid and Table 1 CSVs. Run `python extract_exactlhs_table_data.py` to regenerate Table 2 from the 120-case archive.
+```bash
+python extract_figure_table_data.py
+python extract_exactlhs_table_data.py
+```
 
-## Manuscript figure map
+The first script uses only the Python standard library and creates:
 
-Figs. 1–9 correspond to the current revised manuscript. Fig. 9 uses the R4-2 bound-based comparison.
+| Output | Definition |
+|---|---|
+| `figure_table_data/figures_3_to_8_main_grid_10seeds.csv` | 1,680 FICA/EIFICA records on two networks, training seeds 0–9 |
+| `figure_table_data/table_1_rts24_10seeds.csv` | 240 RTS-24 records: four parameter pairs × two sample sizes × ten seeds × three methods |
+| `figure_table_data/Table1.csv` | 24 rows of ten-seed medians for scheduled cost, measured joint satisfaction, time, and sampled maximum process RSS |
+| `figure_table_data/Table2.csv` | 15 historical validation settings, each evaluated on the same 45 days |
 
-| Figure | Public input | Script or notebook | Saved output |
+### Table 1
+
+CVaR source records are in `figure_table_data/table1_cvar_80_cases.csv`. These combine 40 original cases with 40 added cases at seeds 5–9. The direct and iterative EIFICA records come from `master_summary_20260708_110917.csv`, restricted to RTS-24 and N=50/80. Each parameter/sample-size/method group contains seeds 0–9 exactly once. The extraction script checks the original CVaR records against the original summary.
+
+Each seed uses 5,000 generated evaluation scenarios. Joint satisfaction is recorded as a percentage. Cost is scheduled generation cost in USD. Runtime is the archived elapsed-time field. The original `peak_rss_mb` field contains MiB; Table 1 converts it to GiB by dividing by 1024. `Table1.csv` also includes decimal GB for explicit unit conversion.
+
+The original summary files are retained as historical inputs. Their CVaR rows alone are not the complete ten-seed comparison; use the extraction script above for current Table 1.
+
+### Table 2
+
+The source is `figure_table_data/table2_historical_validation_days.csv`, containing 675 daily records: five N values × three radii × 45 validation days. Epsilon is 0.08. The original selection grid uses N=100/200/250; N=300/350 are later exploratory extensions. The selected setting remains N=250 and theta=0.03.
+
+A day passes when its solve is optimal, iteration stops without additions, and generator limits, both ramp directions, DC line limits, and PV bounds all satisfy the 1e-4 MW threshold throughout the day. Every planned day remains in the denominator. Mean scheduled cost uses the records with completed optimal audits, as in the archived validation summaries. The CSV retains per-family maximum residuals, the separate power-balance residual, and the original broader audit flag; `operating_pass` applies the operating-limit definition used in the manuscript table.
+
+Validation covers 1 April–15 May 2026. Training uses 363 complete days from 2025. N and theta remain fixed for the independent 45-day test from 1 August–14 September 2026. Table 2 contains validation results, not test results.
+
+The second extraction script creates `figure_table_data/exactlhs_one_hour_retries.csv` from the 120-case Fig. 9 archive. Those ten retry records support the ExactLHS comparison and are not current Table 2.
+
+## Reproduce the figures
+
+| Figure | Input | Command or notebook | Output |
 |---|---|---|---|
-| Fig. 1, PV-error correlation | `data/ods032.csv`; generated samples are also saved as `data/solar_temporal_correlated_error_samples.npy` | `solar_error_generalization.ipynb` | `solar_error_gen_figure/Fig1.pdf` |
-| Fig. 2, dispatch and AGC | Saved PDF | Core solver's plotting entry point, available on request | `figure/test/Fig2.pdf` |
-| Fig. 3, RTS-24 reliability | Ten-seed main-grid CSV | `result_vis/EIFICA_result_vis.ipynb`, RTS-24 reliability cell | `result_vis/figures/Fig3.pdf` |
-| Fig. 4, IEEE-118 reliability | Ten-seed main-grid CSV | Same notebook, IEEE-118 reliability cell | `result_vis/figures/Fig4.pdf` |
-| Fig. 5, RTS-24 solve time | Ten-seed main-grid CSV | Same notebook, RTS-24 solve-time cell | `result_vis/figures/Fig5.pdf` |
-| Fig. 6, IEEE-118 solve time | Ten-seed main-grid CSV | Same notebook, IEEE-118 solve-time cell | `result_vis/figures/Fig6.pdf` |
-| Fig. 7, RTS-24 time versus memory | Ten-seed main-grid CSV | Same notebook, RTS-24 time-memory cell | `result_vis/figures/Fig7.pdf` |
-| Fig. 8, IEEE-118 memory bars | Ten-seed main-grid CSV | Same notebook, IEEE-118 memory-bar cell | `result_vis/figures/Fig8.pdf` |
-| Fig. 9, ExactLHS objective bounds | `figure_table_data/fig9_exactlhs_120_cases.csv` (all 120 pairs) | `python result_vis/plot_fig9.py` | `result_vis/figures/Fig9.pdf` |
+| Fig. 1 | `data/ods032.csv` | `solar_error_generalization.ipynb` | `solar_error_gen_figure/Fig1.pdf` |
+| Fig. 2 | `figure_table_data/fig2/plot_data.npz` and `provenance.json` | `python result_vis/plot_fig2.py` | `figure/test/Fig2.pdf` |
+| Fig. 3, RTS-24 reliability | Ten-seed main-grid CSV | RTS-24 reliability cell in `result_vis/EIFICA_result_vis.ipynb` | `result_vis/figures/Fig3.pdf` |
+| Fig. 4, IEEE-118 reliability | Same CSV | IEEE-118 reliability cell in the same notebook | `result_vis/figures/Fig4.pdf` |
+| Fig. 5, RTS-24 runtime | Same CSV | RTS-24 runtime cell in the same notebook | `result_vis/figures/Fig5.pdf` |
+| Fig. 6, IEEE-118 runtime | Same CSV | IEEE-118 runtime cell in the same notebook | `result_vis/figures/Fig6.pdf` |
+| Fig. 7, RTS-24 time and memory | Same CSV | RTS-24 time-memory cell in the same notebook | `result_vis/figures/Fig7.pdf` |
+| Fig. 8, IEEE-118 memory | Same CSV | IEEE-118 memory cell in the same notebook | `result_vis/figures/Fig8.pdf` |
+| Fig. 9, ExactLHS bounds | `figure_table_data/fig9_exactlhs_120_cases.csv` | `python result_vis/plot_fig9.py` | `result_vis/figures/Fig9.pdf` |
 
-Run the visualization notebook from `result_vis/`; it reads `figure_table_data/figures_3_to_8_main_grid_10seeds.csv` from the repository root. The saved plots can also be inspected directly without executing the notebook. Fig. 1 is generated by `solar_error_generalization.ipynb` from the included PV CSV; the notebook constructs the scenario samples and saves them separately. Neither its preprocessing nor its plotting uses `solar_all_method.py` or Gurobi. Fig. 2 can be inspected, but regenerating its dispatch solution requires the core solver.
+Run the main visualization notebook from `result_vis/`. Its summary output is `result_vis/summary_table.csv`; the historical five-seed summary has a separate `_5seed` filename. The plots retain their existing styles. Figure scripts write PDF outputs only. Python plotting requires NumPy and Matplotlib; notebooks additionally require their imported scientific packages.
 
-The result notebook writes only the six manuscript PDFs for Figs. 3–8. The Fig. 1 notebook saves only the correlation-comparison PDF. `figure/test/` contains only Fig. 2. Fig. 9 has a separate plotting script and 120-case data file. Its PDF is identical to the figure in the R4-2 reviewer response and current revised manuscript. Older alternate PDFs and PNG copies have been removed.
+Fig. 2 uses iterative EIFICA on RTS-24 at N=300, epsilon=0.03, theta=0.06, and T=24, with training seed 0. Sampling seed 10 selects evaluation scenario 245, using zero-based indexing, from 5,000 generated scenarios. The saved plot arrays contain this selected trajectory; row 0 in that file is therefore original scenario 245. Gen 7 and Gen 13 are selected by the original AGC-variation rule. The script plots the saved dispatch without importing the optimizer. Computing a new schedule requires the core solver.
 
-The notebook also writes `result_vis/summary_table.csv` from the ten-seed input. The previous five-seed version is retained as `result_vis/summary_table_5seed.csv`. Its paired FICA/iterative objective difference is matched by parameter setting and seed.
+Fig. 9 uses all 120 fixed-five-seed paired cases. Nine final one-hour time-limit cases have objective-difference intervals calculated from the ExactLHS incumbent and solver lower bound. The original `Solar_c24_optgap/optimality_gap_T3_fixed.csv` is a different 240-pair archive and is not the input to revised Fig. 9.
 
-## Table and computation map
+## Preprocessing, seeds, and optimization access
 
-| Item | Available public record | What is needed to regenerate it |
-|---|---|---|
-| Original five-seed CVaR comparison table (Table 1) | `figure_table_data/table_1_rts24_5seeds.csv` contains the 120 source rows for its three plotted methods | Group by parameter setting, N, method, and mode; compare five-seed medians with Table 1 |
-| Current manuscript Table 2, one-hour ExactLHS retries | `figure_table_data/table_2_exactlhs_10_retries.csv` contains all ten rows | Filter the 120-case archive to `final_stage=60min`: nine time-limit rows and one tolerance row. Fig. 9 displays all 120 pairs and highlights the nine time-limit intervals |
-| Original T=3 objective-comparison data | `Solar_c24_optgap/optimality_gap_T3_fixed.csv` | Original 240-pair archive; 48 timed-out ExactLHS runs have feasible incumbents, so their differences are not certified optimality gaps. The revised Fig. 9 instead uses the 120-case bound archive above |
-| Main-grid tables or summaries | `figure_table_data/figures_3_to_8_main_grid_10seeds.csv` | Filter by network, parameters, `N_WDR`, method, mode, and seed, then compute the statistic stated in the relevant caption |
-
-`paper_eval.py` defines the main parameter grid, output names, and summary extraction. `exp_optimality_run.py` defines the original T=3 ExactLHS grid, including its 0.1% MIP-gap request and 600-second default time limit. The later one-hour retries in the revised manuscript are separate records, so the original CSV alone does not certify their final bounds.
-
-## Inputs, seeds, and code access
-
-- `solar_error_generalization.py` and `solar_error_generalization.ipynb` show the historical-error preprocessing, KDE fit, and copula-based scenario construction. `data/ods032.csv` and the generated sample files are included. `solar_scenario_gen.py` reads those sample files for scenario plotting and sampling.
-- The main-grid driver is `paper_eval.py`. Its default seeds are 0–4; the ten-seed summary records 0–9. The original T=3 driver uses seed values 0, 100, ..., 900. Use the seed column of the applicable record rather than assuming these two experiments share the same seed sequence.
-- The benchmark driver and the README describe requested MIP gap and time limit. Full solver configuration, Big-M implementation, and the optimizer's internal constraints are in `solar_all_method.py`, which is not public here.
-- To examine the complete core solver and associated experiment code during review, editors and reviewers may request a confidential copy from **f13265151226@163.com**.
-
-The repository supports inspection and replotting of saved results. Running new optimization instances requires the core solver and a licensed Gurobi installation.
+- `solar_error_generalization.py` and `solar_error_generalization.ipynb` implement historical-error preprocessing, KDE fitting, and copula-based scenario construction from the included PV data. Scenario generation specifies seed 0 and saves its arrays under `data/`.
+- `paper_eval.py` describes the main experiment grid. Its original default is five seeds; the current figure and Table 1 CSVs explicitly contain seeds 0–9. Use the seeds recorded in each applicable dataset.
+- `exp_optimality_run.py` describes the original T=3 ExactLHS grid, with seeds 0, 100, ..., 900, a requested 0.1% MIP gap, and a 600-second time limit. The revised 120-case archive separately records later one-hour retries.
+- Full optimizer constraints and Big-M construction are in `solar_all_method.py`, which is not included in the public files. Editors and reviewers may contact **f13265151226@163.com** to arrange confidential access to the core solver, complete benchmark implementation, and instance settings. New optimization runs also require a Gurobi license.

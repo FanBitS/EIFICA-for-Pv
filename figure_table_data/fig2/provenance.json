@@ -1,0 +1,27 @@
+{
+  "network": "RTS-24",
+  "N": 300,
+  "epsilon": 0.03,
+  "theta": 0.06,
+  "seed": 0,
+  "T": 24,
+  "method": "iterative EIFICA",
+  "evaluation_scenarios": 5000,
+  "scenario_selection": "numpy RandomState(10).choice(5000,1,replace=False)",
+  "scenario_index_zero_based": 245,
+  "generator_selection": "two largest standard deviations of hourly AGC factors, matching original plot rule",
+  "generator_indices_zero_based": [
+    7,
+    13
+  ],
+  "objective_usd": 1000135.4939656435,
+  "joint_satisfaction": 0.9612,
+  "input_verified": true,
+  "source_result": "E29_case24_ieee_rts_EIFICA_envelope_N300_e0.03_t0.06_seed0_T24_sf1_norm1",
+  "no_new_optimization": true,
+  "displayed_trajectory_checks": {
+    "minimum_generator_upper_margin_mw": 0.2154066173486413,
+    "minimum_generator_lower_margin_mw": 1.375324908565954,
+    "maximum_generator_ramp_utilization": 0.9482783249614988
+  }
+}

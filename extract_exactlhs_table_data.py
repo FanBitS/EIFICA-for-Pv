@@ -1,4 +1,4 @@
-"""Extract the manuscript's ExactLHS Table 2 from Fig. 9 case data."""
+"""Extract the one-hour ExactLHS retry records from Fig. 9 case data."""
 
 import csv
 from collections import Counter
@@ -36,9 +36,9 @@ for case in hour_cases:
         "difference_upper_pct": case["difference_upper_pct"],
     })
 
-target_path = data / "table_2_exactlhs_10_retries.csv"
+target_path = data / "exactlhs_one_hour_retries.csv"
 with target_path.open("w", newline="") as target:
-    writer = csv.DictWriter(target, fieldnames=table_rows[0].keys())
+    writer = csv.DictWriter(target, fieldnames=table_rows[0].keys(), lineterminator='\n')
     writer.writeheader()
     writer.writerows(table_rows)
 print(f"{target_path}: {len(table_rows)} rows")
