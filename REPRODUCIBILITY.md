@@ -13,7 +13,7 @@ python extract_figure_table_data.py
 python extract_exactlhs_table_data.py
 ```
 
-The first script uses only the Python standard library and creates:
+The first script uses the Python standard library and creates:
 
 | Output | Definition |
 |---|---|
@@ -28,7 +28,7 @@ CVaR source records are in `figure_table_data/table1_cvar_80_cases.csv`. These c
 
 Each seed uses 5,000 generated evaluation scenarios. Joint satisfaction is recorded as a percentage. Cost is scheduled generation cost in USD. Runtime is the archived elapsed-time field. The original `peak_rss_mb` field contains MiB; Table 1 converts it to GiB by dividing by 1024. `Table1.csv` also includes decimal GB for explicit unit conversion.
 
-The original summary files are retained as historical inputs. Their CVaR rows alone are not the complete ten-seed comparison; use the extraction script above for current Table 1.
+The original summary files are retained as historical inputs. The extraction script combines the 80 CVaR source records with the paired EIFICA records for current Table 1.
 
 ### Table 2
 
@@ -36,9 +36,9 @@ The source is `figure_table_data/table2_historical_validation_days.csv`, contain
 
 A day passes when its solve is optimal, iteration stops without additions, and generator limits, both ramp directions, DC line limits, and PV bounds all satisfy the 1e-4 MW threshold throughout the day. Every planned day remains in the denominator. Mean scheduled cost uses the records with completed optimal audits, as in the archived validation summaries. The CSV retains per-family maximum residuals, the separate power-balance residual, and the original broader audit flag; `operating_pass` applies the operating-limit definition used in the manuscript table.
 
-Validation covers 1 April–15 May 2026. Training uses 363 complete days from 2025. N and theta remain fixed for the independent 45-day test from 1 August–14 September 2026. Table 2 contains validation results, not test results.
+Validation covers 1 April–15 May 2026. Training uses 363 complete days from 2025. N and theta remain fixed for the independent 45-day test from 1 August–14 September 2026.
 
-The second extraction script creates `figure_table_data/exactlhs_one_hour_retries.csv` from the 120-case Fig. 9 archive. Those ten retry records support the ExactLHS comparison and are not current Table 2.
+The second extraction script creates `figure_table_data/exactlhs_one_hour_retries.csv` from the 120-case Fig. 9 archive. Those ten retry records support the ExactLHS comparison in Fig. 9.
 
 ## Reproduce the figures
 
@@ -56,9 +56,9 @@ The second extraction script creates `figure_table_data/exactlhs_one_hour_retrie
 
 Run the main visualization notebook from `result_vis/`. Its summary output is `result_vis/summary_table.csv`; the historical five-seed summary has a separate `_5seed` filename. The plots retain their existing styles. Figure scripts write PDF outputs only. Python plotting requires NumPy and Matplotlib; notebooks additionally require their imported scientific packages.
 
-Fig. 2 uses iterative EIFICA on RTS-24 at N=300, epsilon=0.03, theta=0.06, and T=24, with training seed 0. Sampling seed 10 selects evaluation scenario 245, using zero-based indexing, from 5,000 generated scenarios. The saved plot arrays contain this selected trajectory; row 0 in that file is therefore original scenario 245. Gen 7 and Gen 13 are selected by the original AGC-variation rule. The script plots the saved dispatch without importing the optimizer. Computing a new schedule requires the core solver.
+Fig. 2 uses iterative EIFICA on RTS-24 at N=300, epsilon=0.03, theta=0.06, and T=24, with training seed 0. Sampling seed 10 selects evaluation scenario 245, using zero-based indexing, from 5,000 generated scenarios. The saved plot arrays contain this selected trajectory; row 0 in that file is therefore original scenario 245. Gen 7 and Gen 13 are selected by the original AGC-variation rule. The script reads the saved dispatch arrays to render Fig. 2.
 
-Fig. 9 uses all 120 fixed-five-seed paired cases. Nine final one-hour time-limit cases have objective-difference intervals calculated from the ExactLHS incumbent and solver lower bound. The original `Solar_c24_optgap/optimality_gap_T3_fixed.csv` is a different 240-pair archive and is not the input to revised Fig. 9.
+Fig. 9 uses all 120 fixed-five-seed paired cases. Nine final one-hour time-limit cases have objective-difference intervals calculated from the ExactLHS incumbent and solver lower bound. The original `Solar_c24_optgap/optimality_gap_T3_fixed.csv` contains the earlier 240-pair comparison.
 
 Hardware, observed per-instance memory, and parallel-run budgeting are documented in [HARDWARE.md](HARDWARE.md).
 
@@ -67,4 +67,4 @@ Hardware, observed per-instance memory, and parallel-run budgeting are documente
 - `solar_error_generalization.py` and `solar_error_generalization.ipynb` implement historical-error preprocessing, KDE fitting, and copula-based scenario construction from the included PV data. Scenario generation specifies seed 0 and saves its arrays under `data/`.
 - `paper_eval.py` describes the main experiment grid. Its original default is five seeds; the current figure and Table 1 CSVs explicitly contain seeds 0–9. Use the seeds recorded in each applicable dataset.
 - `exp_optimality_run.py` describes the original T=3 ExactLHS grid, with seeds 0, 100, ..., 900, a requested 0.1% MIP gap, and a 600-second time limit. The revised 120-case archive separately records later one-hour retries.
-- Full optimizer constraints and Big-M construction are in `solar_all_method.py`, which is not included in the public files. Editors and reviewers may contact **f13265151226@163.com** to arrange confidential access to the core solver, complete benchmark implementation, and instance settings. New optimization runs also require a Gurobi license.
+- Full optimizer constraints and Big-M construction are implemented in `solar_all_method.py`. Editors and reviewers may contact **f13265151226@163.com** to arrange confidential access to the core solver, complete benchmark implementation, and instance settings. New optimization runs also require a Gurobi license.

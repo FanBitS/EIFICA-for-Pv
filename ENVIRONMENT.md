@@ -22,7 +22,7 @@ source "$REPRO_ENV_DIR/bin/activate"
 python -m pip install -r requirements.txt
 ```
 
-`requirements.txt` specifies NumPy 1.26.4, pandas 2.2.2, SciPy 1.13.0, Matplotlib 3.8.4, and seaborn 0.13.2. No machine-specific environment name or absolute project path is required.
+`requirements.txt` specifies NumPy 1.26.4, pandas 2.2.2, SciPy 1.13.0, Matplotlib 3.8.4, and seaborn 0.13.2.
 
 ## Reproduce saved results
 
@@ -35,7 +35,7 @@ python result_vis/plot_fig2.py
 python result_vis/plot_fig9.py
 ```
 
-The extraction scripts require only the Python standard library. The plotting scripts use the installed scientific packages and a noninteractive backend, so no desktop display is needed. Outputs are listed in [REPRODUCIBILITY.md](REPRODUCIBILITY.md). These commands do not run an optimizer.
+The extraction scripts use the Python standard library. The plotting scripts use the installed scientific packages and the Agg backend to write figure files. These commands regenerate outputs from saved arrays and CSV records. Outputs are listed in [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
 
 ### Notebooks
 
@@ -47,7 +47,7 @@ REPRO_KERNEL=my_reproduction_kernel
 python -m ipykernel install --user --name "$REPRO_KERNEL" --display-name "$REPRO_KERNEL"
 ```
 
-The kernel name is also user-selected. Open the notebook in your notebook application and select this kernel. The editor's notebook support is separate from the Python packages installed here.
+The kernel name is also user-selected. Open the notebook in your notebook application and select this kernel.
 
 - Run `solar_error_generalization.ipynb` with the repository root as its working directory. This notebook fits the PV error model, generates the saved scenario arrays, and produces Fig. 1. Running it writes the generated arrays under `data/`.
 - Run `result_vis/EIFICA_result_vis.ipynb` with `result_vis/` as its working directory. It reads the ten-seed main-grid CSV and produces Figs. 3–8 and the summary CSV.
@@ -64,9 +64,9 @@ After obtaining the core solver and instance files, install the additional packa
 python -m pip install -r requirements-solver.txt
 ```
 
-The local optimization environment used pandapower 2.14.6, gurobipy 12.0.3, joblib 1.5.2, and psutil 7.0.0. The solver uses pandapower's internal network conversion routines, so retain the stated pandapower version when reproducing those runs. Gurobi requires a valid license with capacity for the intended model size. Installing `gurobipy` alone does not provide that capacity.
+The local optimization environment used pandapower 2.14.6, gurobipy 12.0.3, joblib 1.5.2, and psutil 7.0.0. The solver uses pandapower's internal network conversion routines, so retain the stated pandapower version when reproducing those runs. Gurobi requires a valid license with capacity for the intended model size.
 
-`paper_eval.py` and `exp_optimality_run.py` require the separately supplied `solar_all_method.py`. Editors and reviewers may contact **f13265151226@163.com** to arrange access. Place the supplied solver and associated instance files in the documented repository locations before launching a new optimization experiment. The original driver defaults and the archived ten-seed results have different seed coverage; consult the reproduction guide rather than launching the driver to recreate a table from saved results.
+`paper_eval.py` and `exp_optimality_run.py` require the separately supplied `solar_all_method.py`. Editors and reviewers may contact **f13265151226@163.com** to arrange access. Place the supplied solver and associated instance files in the documented repository locations before launching a new optimization experiment. The original driver defaults to seeds 0–4, and the current figure and Table 1 CSVs contain seeds 0–9. Use the extraction commands above to rebuild their summaries.
 
 ## Installation check
 

@@ -2,7 +2,7 @@
 __pycache__/
 *.pyc
 
-# Gurobi WLS license (private credentials - never commit)
+# Local Gurobi license
 gurobi.lic
 
 # IDE
@@ -13,6 +13,6 @@ markdown/
 paper/
 epsr_sample/
 
-# Core algorithm (keep private until publication)
+# Locally supplied optimization solver
 solar_all_method.py
 solar_all_method.md

@@ -4,7 +4,7 @@ Data and reproduction scripts for **“Envelope Informed Fast Inner Convex Appro
 
 ## Setup
 
-See [ENVIRONMENT.md](ENVIRONMENT.md) for the tested Python and package versions, a user-named environment, and execution commands. Saved-result plots do not require the optimization solver or a Gurobi license. See [HARDWARE.md](HARDWARE.md) for the two experimental computers, observed per-instance memory, and guidance on selecting a workload.
+See [ENVIRONMENT.md](ENVIRONMENT.md) for the tested Python and package versions, a user-named environment, and execution commands. Saved-result plots read the included arrays and CSV files. See [HARDWARE.md](HARDWARE.md) for the two experimental computers, observed per-instance memory, and guidance on selecting a workload.
 
 ## Manuscript figures and tables
 
@@ -23,6 +23,6 @@ Run `python extract_figure_table_data.py` to rebuild the main-grid CSV and both 
 
 ## Code availability
 
-The repository includes experiment drivers, PV-error preprocessing, plotting scripts, and saved results. Plotting Fig. 2 from its saved trajectory does not require the core solver. Running new optimization instances requires the core solver, `solar_all_method.py`, and a Gurobi license. The core solver and complete Big-M implementation are available to editors and reviewers for confidential examination by contacting **f13265151226@163.com**. The core algorithm code will be released publicly promptly upon acceptance.
+The repository includes experiment drivers, PV-error preprocessing, plotting scripts, and saved results. Running new optimization instances requires the core solver, `solar_all_method.py`, and a Gurobi license. The core solver and complete Big-M implementation are available to editors and reviewers for confidential examination by contacting **f13265151226@163.com**. The core algorithm code will be released publicly promptly upon acceptance.
 
 For a fixed version, retain the full commit ID returned by `git rev-parse HEAD`. GitHub's commit history provides the corresponding immutable file view.

@@ -37,7 +37,7 @@ Run `python summarize_resources.py` to regenerate [resource_memory_summary.csv](
 
 ## Running on your machine
 
-- **Saved-result reproduction:** run the table extraction and plotting commands in [ENVIRONMENT.md](ENVIRONMENT.md) using the included data. These commands run without Gurobi.
+- **Saved-result reproduction:** run the table extraction and plotting commands in [ENVIRONMENT.md](ENVIRONMENT.md) using the included data. These commands read the archived arrays and CSV records.
 - **New optimization runs:** start with one N=50 instance and four solver threads. Check its memory use before increasing N. Use the method-specific memory figures above when selecting the workload.
 - **Memory budget:** reserve RAM for the optimization process, operating system, input data, and other applications. The largest listed IEEE-118 FICA measurement at N=300 is 108.92 GiB.
 - **Concurrency:** each instance uses four solver threads. Concurrent instances allocate separate models, so budget for their combined memory use. Start with one worker and increase concurrency according to available RAM.

@@ -32,10 +32,13 @@ def test_limit():
     print(f"actual run time: {actual_duration:.2f} s")
     print(f"Gurobi status code: {model.Status} (9 = TIME_LIMIT)")
     
-    if abs(actual_duration - limit_seconds) < 2:
-        print(">>> Conclusion: TimeLimit is effective!")
+    print(f"difference from requested limit: {actual_duration - limit_seconds:.2f} s")
+    if model.Status == GRB.TIME_LIMIT:
+        print("termination reason: time limit")
+    elif model.Status == GRB.OPTIMAL:
+        print("termination reason: optimal solution")
     else:
-        print(">>> Conclusion: TimeLimit may not be effective, or the problem was solved too quickly.")
+        print(f"termination reason: Gurobi status {model.Status}")
     print("="*50 + "\n")
 
 if __name__ == "__main__":
