@@ -26,7 +26,7 @@ The first script uses the Python standard library and creates:
 
 CVaR source records are in `figure_table_data/table1_cvar_80_cases.csv`. These combine 40 original cases with 40 added cases at seeds 5–9. The direct and iterative EIFICA records come from `master_summary_20260708_110917.csv`, restricted to RTS-24 and N=50/80. Each parameter/sample-size/method group contains seeds 0–9 exactly once. The extraction script checks the original CVaR records against the original summary.
 
-Each seed uses 5,000 generated evaluation scenarios. Joint satisfaction is recorded as a percentage. Cost is scheduled generation cost in USD. Runtime is the archived elapsed-time field. The original `peak_rss_mb` field contains MiB; Table 1 converts it to GiB by dividing by 1024. `Table1.csv` also includes decimal GB for explicit unit conversion.
+Each seed uses 5,000 generated evaluation scenarios. Joint satisfaction is recorded as a percentage. Cost is scheduled generation cost in USD. Runtime is the archived elapsed-time field. The original `peak_rss_mb` field contains MiB; Table 1 and Figs. 7–8 convert it to GB by multiplying by 2^20 and dividing by 10^9. One GB equals 10^9 bytes. `Table1.csv` retains both unit columns for conversion.
 
 The original summary files are retained as historical inputs. The extraction script combines the 80 CVaR source records with the paired EIFICA records for current Table 1.
 

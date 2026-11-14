@@ -15,23 +15,23 @@ The main mixed-integer benchmark setting was a 0.1% relative MIP gap. Gurobi fea
 
 Each entry is the **largest sampled process RSS across 40 individual runs** at the stated network and N. Each group covers four parameter pairs, ten seeds, and T=24.
 
-| Network | Training scenarios N | FICA (GiB) | Direct EIFICA (GiB) | Iterative EIFICA (GiB) |
+| Network | Training scenarios N | FICA (GB) | Direct EIFICA (GB) | Iterative EIFICA (GB) |
 |---|---:|---:|---:|---:|
-| RTS-24 | 50 | 1.04 | 1.00 | 1.12 |
-| RTS-24 | 150 | 37.67 | 2.15 | 2.47 |
-| RTS-24 | 300 | 89.35 | 15.68 | 16.32 |
-| IEEE-118 | 50 | 2.17 | 2.08 | 2.46 |
-| IEEE-118 | 150 | 50.04 | 4.68 | 5.97 |
-| IEEE-118 | 300 | 108.92 | 26.59 | 29.04 |
+| RTS-24 | 50 | 1.12 | 1.07 | 1.20 |
+| RTS-24 | 150 | 40.45 | 2.31 | 2.65 |
+| RTS-24 | 300 | 95.94 | 16.84 | 17.52 |
+| IEEE-118 | 50 | 2.33 | 2.23 | 2.65 |
+| IEEE-118 | 150 | 53.73 | 5.02 | 6.41 |
+| IEEE-118 | 300 | 116.95 | 28.55 | 31.18 |
 
 The RTS-24 CVaR comparison uses the same four parameter pairs and ten seeds:
 
-| Training scenarios N | Largest recorded process memory (GiB) |
+| Training scenarios N | Largest recorded process memory (GB) |
 |---|---:|
-| 50 | 38.36 |
-| 80 | 73.70 |
+| 50 | 41.19 |
+| 80 | 79.13 |
 
-The public per-case CSVs record the maximum sampled resident set size, or RSS, of each process during a run. The original `peak_rss_mb` field contains MiB. Divide by 1024 to obtain GiB, where one GiB equals 2^30 bytes.
+The public per-case CSVs record the maximum sampled resident set size, or RSS, of each process during a run. The original `peak_rss_mb` field contains MiB. Multiply by 2^20 and divide by 10^9 to obtain GB, where one GB equals 10^9 bytes.
 
 Run `python summarize_resources.py` to regenerate [resource_memory_summary.csv](figure_table_data/resource_memory_summary.csv), which includes both the median and largest sampled maximum for every group above. The main-grid inputs are the same archived records used for Figs. 3–8; the CVaR inputs are the 80 records supporting revised Table 1.
 
@@ -39,7 +39,7 @@ Run `python summarize_resources.py` to regenerate [resource_memory_summary.csv](
 
 - **Saved-result reproduction:** run the table extraction and plotting commands in [ENVIRONMENT.md](ENVIRONMENT.md) using the included data. These commands read the archived arrays and CSV records.
 - **New optimization runs:** start with one N=50 instance and four solver threads. Check its memory use before increasing N. Use the method-specific memory figures above when selecting the workload.
-- **Memory budget:** reserve RAM for the optimization process, operating system, input data, and other applications. The largest listed IEEE-118 FICA measurement at N=300 is 108.92 GiB.
+- **Memory budget:** reserve RAM for the optimization process, operating system, input data, and other applications. The largest listed IEEE-118 FICA measurement at N=300 is 116.95 GB.
 - **Concurrency:** each instance uses four solver threads. Concurrent instances allocate separate models, so budget for their combined memory use. Start with one worker and increase concurrency according to available RAM.
 
 New optimization runs use the separately supplied core solver and instance files, together with a Gurobi license that supports the model size.
