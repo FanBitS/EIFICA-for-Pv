@@ -2,6 +2,10 @@
 
 Data and reproduction scripts for **“Envelope Informed Fast Inner Convex Approximation for Distributionally Robust Day-Ahead AGC Scheduling under PV Uncertainty.”**
 
+## Setup
+
+See [ENVIRONMENT.md](ENVIRONMENT.md) for the tested Python and package versions, a user-named environment, and execution commands. Saved-result plots do not require the optimization solver or a Gurobi license.
+
 ## Manuscript figures and tables
 
 The [reproduction guide](REPRODUCIBILITY.md) identifies the inputs, scripts, saved outputs, and statistical definitions. Figure and table data are in [`figure_table_data/`](figure_table_data/).

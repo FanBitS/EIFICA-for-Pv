@@ -2,6 +2,8 @@
 
 This guide follows the current manuscript numbering. Table 1 uses ten matched seeds for all three methods. Table 2 reports historical validation. Save the full repository commit ID with reproduced results.
 
+Install the packages and configure the working directory as described in [ENVIRONMENT.md](ENVIRONMENT.md).
+
 ## Rebuild the table data
 
 From the repository root, run:
